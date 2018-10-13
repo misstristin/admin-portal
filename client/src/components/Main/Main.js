@@ -12,8 +12,11 @@ const Main = props => (
   </div>
 
   <div className="feed">
-  [add content to the universal feed] <br />
-  [content goes here]
+    <form>
+      <textarea placeholder="Connect with your peers."></textarea> <br />
+      <button>Post</button>
+    </form>
+        [content goes here]
   </div>
 
   <div className="rightSidebar">
