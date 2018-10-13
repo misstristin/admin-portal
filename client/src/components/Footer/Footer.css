@@ -1,0 +1,15 @@
+/* styling for Footer */
+
+.footer {
+	margin-top: 20px;
+	text-align: center;
+	width: 100%;
+	height: 20px;
+	position: relative;
+	bottom: 0px;
+  left: 0px;
+  background-color: deepskyblue;
+  color: white;
+  font-size: 10px;
+  padding-top: 0px
+}

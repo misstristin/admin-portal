@@ -1,0 +1,9 @@
+   .leftSidebar, .feed, .rightSidebar {
+    float: left;
+  }
+  .leftSidebar, .rightSidebar {
+    width: 150px;
+  }
+  .feed {
+    width: 400px;
+  }
