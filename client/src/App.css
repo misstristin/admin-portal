@@ -1,14 +1,7 @@
-   .leftSidebar, .feed, .rightSidebar {
-    float: left;
-  }
-  .leftSidebar, .rightSidebar {
-    width: 150px;
-  }
-  .feed {
-    width: 400px;
-  }
   body {
     font-family: 'Krub', Arial, Helvetica, sans-serif;
     font-size: 16px;
     line-height: 16px;
+    background-color: rgb(241, 241, 241)
   }
+

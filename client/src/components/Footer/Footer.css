@@ -10,7 +10,7 @@
 	bottom: 0px;
   left: 0px;
 	background-color: deepskyblue;
-	box-shadow: -1em -1em 2em rgb(252, 175, 81);
+	box-shadow: -.2em -.2em 1em rgb(252, 175, 81);
 }
 .footer p{
 	color:  rgb(255, 255, 255);

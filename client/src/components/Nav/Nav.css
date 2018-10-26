@@ -36,7 +36,7 @@ nav {
       float: right;
   }
 
-  nav li a:link, nav li a:visited {
+  nav li a:link, nav li a:visited, nav li a {
       display: block;
       color: rgb(255, 255, 255);
       text-align: center;
@@ -51,5 +51,5 @@ nav {
     text-decoration: none;
     font-weight: normal;
     border-radius: 2em;
-
+    cursor: pointer;
   }

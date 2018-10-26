@@ -1,48 +1,76 @@
 /* styling for main container div */
 
 .mainDiv {
-  width: 740px;
+  width: 62em;
   margin: 0px auto;
   margin-top: 50px;
   min-height: 500px;
 }
-.feed {
-  font-size: .8em;
-  padding: 10px;
-}
-
-.feed form {
-  background-color: ivory;
-  height: 100px;
-}
-.feed textarea {
-  display: block;
-  width: 100%;
-  height: 50px;
-  background: white;
-  font-family: 'Krub', Arial, sans-serif;
-}
-.feed button {
-  position: relative;
-  bottom: 10px;
-  left: 335px;
-  width: 70px;
-  height: 20px;
-  color: white;
-  font-size: 1 rem;
-  font-family: 'Krub', Arial, sans-serif;
-  border: none;
-  box-shadow: .1em .1em .2em rgb(252, 175, 81), -.1em -.1em .2em rgb(252, 175, 81);
-  background-color: deepskyblue;
-  border-radius: 10px;
-}
 
 .leftSidebar {
-  margin-right: 10px;
+  margin-right: .5em;
   font-size: .8em;
+  line-height: .7em;
+  background-color:  rgb(255, 255, 255);
+}
+
+.leftSidebar p {
+  margin-bottom: 2em;
 }
 
 .rightSidebar {
-  margin-left: 10px;
+  margin-left: .5em;
   font-size: .8em;
+  line-height: 1.2em;
+  background-color:  rgb(255, 255, 255);
+}
+
+.leftSidebar, .feed, .rightSidebar {
+  float: left;
+}
+.leftSidebar, .rightSidebar {
+  width: 15em;
+  border: .1em solid rgb(212, 184, 167);
+  padding: 1em;
+}
+.feed {
+width: 40em;
+}
+.profilePic {
+  width: 15em;
+  border: .1em solid rgb(000,000,000);
+  margin-bottom: 1em;
+}
+.sidebarTitles {
+  color: rgb(0, 191, 255);
+  font-weight: bolder;
+}
+.loginSignupDiv {
+  width: 40em;
+  margin: 0em auto;
+  clear: both;
+  text-align: center;
+  padding-top: 5em;
+}
+.loginSignupDiv button {
+    width: 5em;
+    height: 2em;
+    color: white;
+    font-size: 1 em;
+    font-family: 'Krub', Arial, sans-serif;
+    border: none;
+    box-shadow: .1em .1em .2em rgb(252, 175, 81), -.1em -.1em .2em rgb(252, 175, 81);
+    background-color: rgb(0, 191, 255);
+    border-radius: 10px;
+}
+.loginSignupDiv h1 {
+  font-weight: bolder;
+  text-shadow: .1em .1em .3em  rgb(0, 191, 255);
+}
+
+.joinForm, .signInForm {
+  display: block;
+  width: 20em;
+  margin: 0em auto;
+  margin-bottom: 1em;
 }

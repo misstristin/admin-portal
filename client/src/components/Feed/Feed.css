@@ -1,0 +1,26 @@
+.feed {
+    font-size: .8em;
+    padding: 10px;
+  }
+  
+.feed textarea {
+    display: block;
+    width: 40em;
+    height: 5em;
+    background: white;
+    font-family: 'Krub', Arial, sans-serif;
+  }
+.feed button {
+    position: relative;
+    bottom: .8em;
+    left: 35.2em;
+    width: 5em;
+    height: 2em;
+    color: white;
+    font-size: 1 em;
+    font-family: 'Krub', Arial, sans-serif;
+    border: none;
+    box-shadow: .1em .1em .2em rgb(252, 175, 81), -.1em -.1em .2em rgb(252, 175, 81);
+    background-color: rgb(0, 191, 255);
+    border-radius: 10px;
+  }

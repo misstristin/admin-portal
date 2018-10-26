@@ -1,27 +1,23 @@
 import React from "react";
 import "./Main.css";
+import LeftSidebar from "../LeftSidebar/LeftSidebar";
+import RightSidebar from "../RightSidebar/RightSidebar";
+import Feed from "../Feed/Feed";
 
-// Component for the Navbar
+
+
+
+// Component for Main content
 
 const Main = props => (
   <div className="mainDiv">
-  <div className="leftSidebar">
-    [pic]
-    <br />
-    Profile Info Goes Here
-  </div>
+  
+  <LeftSidebar username={props.username} industry={props.industry} yearsexp={props.yearsexp} area={props.area} />
 
-  <div className="feed">
-    <form>
-      <textarea placeholder="Connect with your peers."></textarea> <br />
-      <button>Post</button>
-    </form>
-        [content goes here]
-  </div>
+  <Feed />
 
-  <div className="rightSidebar">
-  [History info goes here]
-  </div>
+  <RightSidebar />
+
 </div>
 
 );
