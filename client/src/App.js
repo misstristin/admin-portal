@@ -10,6 +10,7 @@ import SignupNav from "./components/Nav/SignupNav";
 
 import { _signUp, _login } from './services/AuthService';
 import { _getUserInfo } from './services/UserServices';
+import { _addPost, _loadPosts } from './services/PostService';
 
 
 class App extends Component {
@@ -19,12 +20,16 @@ class App extends Component {
     if(localStorage.token) {
       this.state = {
         isLoggedIn : true,
-        isSignedUp : true
+        isSignedUp : true,
+        posts : [],
+        category : "Now"
       }
     }else{
       this.state = {
         isLoggedIn : false,
-        isSignedUp : true
+        isSignedUp : true,
+        posts : [],
+        category : "Now"
       }
     }
     
@@ -109,11 +114,32 @@ logout = (event) => {
   });
 }
 
+addPost = (event) => {
+  event.preventDefault();
+
+
+  let content = event.target.children[0].value;
+  let category = this.state.category;
+  let author = localStorage.getItem('username');
+  let timeStamp = new Date().getTime()
+  let likes = 0;
+  let comments = [];
+
+  console.log(content + category + author + timeStamp + likes + comments);
+
+  return _addPost(content, category, author, timeStamp, likes, comments).then(rj => {
+      let posts = [...this.state.posts, rj];
+      this.setState({posts});
+    })
+}
+
 componentDidMount () {
     this.setState ({username : localStorage.username});
     this.setState ({industry : localStorage.industry});
     this.setState ({yearsexp : localStorage.yearsexp});
     this.setState ({area : localStorage.area});
+    return _loadPosts()
+      .then(resultingJSON => this.setState({posts : resultingJSON}))
 }
 
 render() {
@@ -128,7 +154,9 @@ render() {
       {isSignedUp && isLoggedIn && <Main username={this.state.username} 
                                           industry={this.state.industry}
                                           yearsexp={this.state.yearsexp} 
-                                          area={this.state.area} />}
+                                          area={this.state.area}
+                                          addPost={this.addPost}
+                                          posts={this.state.posts} />}
 
       {isSignedUp && !isLoggedIn && <Login login={this.login} />}
       {!isSignedUp && !isLoggedIn && <SignUp signUp={this.signUp} />}

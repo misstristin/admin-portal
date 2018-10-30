@@ -27,6 +27,7 @@ db.on("error", function(error) {
 
 // loads the .env file in
 require('dotenv').config()
+
 /*
   Gets rid of the following error:
 
@@ -36,7 +37,6 @@ require('dotenv').config()
   allow the api to be accessed by other apps
 
 */
-
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -44,7 +44,7 @@ require('dotenv').config()
     next();
   });
 
-
+// Code for JSON web tokens
   function verifyToken(req, res, next) {
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -66,14 +66,16 @@ require('dotenv').config()
     }
 }
 
-//GET http://localhost:3001/users
 // just to see the mongo
+//GET http://localhost:3001/users
 app.get('/users', function(req, res){
 	db.users.find({}, function(error, result){
 	    res.json(result);
 	});
 });
 
+// gets data on one user
+//GET http://localhost:3001/users/username
 app.get('/users/:username', function(req, res){
 	db.users.findOne({
         username: req.params.username
@@ -82,8 +84,8 @@ app.get('/users/:username', function(req, res){
 	});
 });
 
+// Sign up
 //POST http://localhost:3001/signup
-
 app.post('/signup', function(req, res) {
   db.users.findOne({
       username: req.body.username
@@ -120,6 +122,8 @@ app.post('/signup', function(req, res) {
   });
 })
 
+// Login
+//POST http://localhost:3001/login
 app.post('/login', function(req, res) {
   db.users.findOne({
       username: req.body.username
@@ -142,7 +146,39 @@ app.post('/login', function(req, res) {
   });
 })
 
+// Adds a post to the feed
+//POST http://localhost:3001/add
+app.post('/add', function(req, res){
+    db.posts.insert({
+        content: req.body.content,
+        category: req.body.category,
+        author: req.body.author,
+        timeStamp: req.body.timeStamp,
+        likes: req.body.likes,
+        comments: req.body.comments
+    }, function(error, addedPost){
+        //log any errors
+        if (error){
+            res.send(error);
+            alert(error);
+        }else {
+            res.json({
+                addedPost: addedPost,
+                message: 'Successfully added post!'
+            });
+        }
+    })
+});
 
+// Posts API
+//GETS http://localhost:3001/posts
+app.get('/posts', function(req, res){
+	db.posts.find({}, function(error, result){
+	    res.json(result);
+	});
+});
+
+// renders index
 app.get('/', function(req, res){
 	res.sendfile('public/index.html');
 });
