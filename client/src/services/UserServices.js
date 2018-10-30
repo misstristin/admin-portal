@@ -5,6 +5,6 @@ export const _getUserInfo = (username) => {
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
 	    },
-	    // body: JSON.stringify({token})
+	    // body: JSON.stringify({username})
 	  }).then(res => res.json())
 }

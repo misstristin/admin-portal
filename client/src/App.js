@@ -91,15 +91,6 @@ login = (event) => {
         this.setState({username}, function(){
           localStorage.setItem('username', username);
         });
-        this.setState ({industry}, function(){
-          localStorage.setItem('industry', industry);
-        });
-        this.setState ({yearsexp}, function(){
-          localStorage.setItem('yearsexp', yearsexp);
-        });
-        this.setState ({area}, function(){
-          localStorage.setItem('area', area);
-        });
       })
   } else {
     alert('Incorrect Password.');
@@ -120,26 +111,45 @@ addPost = (event) => {
 
   let content = event.target.children[0].value;
   let category = this.state.category;
-  let author = localStorage.getItem('username');
+  let username = localStorage.getItem('username');
   let timeStamp = new Date().getTime()
   let likes = 0;
   let comments = [];
 
-  console.log(content + category + author + timeStamp + likes + comments);
-
-  return _addPost(content, category, author, timeStamp, likes, comments).then(rj => {
+  return _addPost(content, category, username, timeStamp, likes, comments).then(rj => {
       let posts = [...this.state.posts, rj];
       this.setState({posts});
     })
 }
 
-componentDidMount () {
-    this.setState ({username : localStorage.username});
-    this.setState ({industry : localStorage.industry});
-    this.setState ({yearsexp : localStorage.yearsexp});
-    this.setState ({area : localStorage.area});
+getUserData(){
+  setTimeout(() => {
+    console.log('Our user data is fetched');
+    let username = localStorage.getItem('username');
+    return _getUserInfo (username).then(res => {
+      let username = res.username;
+      let industry = res.industry;
+      let yearsexp = res.yearsexp;
+      let area = res.area;
+      this.setState({username});
+      this.setState({industry});
+      this.setState({yearsexp});
+      this.setState({area});
+    })
+  }, 1000)
+}
+
+getPostData(){
+  setTimeout(() => {
+    console.log('Our post data is fetched');
     return _loadPosts()
-      .then(resultingJSON => this.setState({posts : resultingJSON}))
+    .then(resultingJSON => this.setState({posts : resultingJSON})
+  )}, 1000)
+}
+
+componentDidMount () {
+  this.getUserData();
+  this.getPostData();
 }
 
 render() {
