@@ -152,7 +152,7 @@ app.post('/add', function(req, res){
     db.posts.insert({
         content: req.body.content,
         category: req.body.category,
-        author: req.body.author,
+        username: req.body.username,
         timeStamp: req.body.timeStamp,
         likes: req.body.likes,
         comments: req.body.comments

@@ -22,14 +22,16 @@ class App extends Component {
         isLoggedIn : true,
         isSignedUp : true,
         posts : [],
-        category : "Now"
+        category : "Now",
+        
       }
     }else{
       this.state = {
         isLoggedIn : false,
         isSignedUp : true,
         posts : [],
-        category : "Now"
+        category : "Now",
+        
       }
     }
     
@@ -89,7 +91,7 @@ login = (event) => {
         let yearsexp = res.yearsexp;
         let area = res.area;
         this.setState({username}, function(){
-          localStorage.setItem('username', username);
+        localStorage.setItem('username', username);
         });
       })
   } else {
@@ -102,19 +104,20 @@ logout = (event) => {
   event.preventDefault();
   this.setState({isLoggedIn: false}, function(){
     localStorage.removeItem('token');
+    localStorage.clear();
   });
+ 
 }
 
 addPost = (event) => {
   event.preventDefault();
 
-
   let content = event.target.children[0].value;
   let category = this.state.category;
-  let username = localStorage.getItem('username');
+  let username = this.state.username;
   let timeStamp = new Date().getTime()
   let likes = 0;
-  let comments = [];
+  let comments = ['None Yet'];
 
   return _addPost(content, category, username, timeStamp, likes, comments).then(rj => {
       let posts = [...this.state.posts, rj];
@@ -123,29 +126,30 @@ addPost = (event) => {
 }
 
 getUserData(){
-  setTimeout(() => {
     console.log('Our user data is fetched');
     let username = localStorage.getItem('username');
-    return _getUserInfo (username).then(res => {
-      let username = res.username;
-      let industry = res.industry;
-      let yearsexp = res.yearsexp;
-      let area = res.area;
-      this.setState({username});
-      this.setState({industry});
-      this.setState({yearsexp});
-      this.setState({area});
-    })
-  }, 1000)
+    if(!username){
+      console.log('No one is logged in yet.')
+    }else {
+      return _getUserInfo (username).then(res => {
+        let username = res.username;
+        let industry = res.industry;
+        let yearsexp = res.yearsexp;
+        let area = res.area;
+        this.setState({username});
+        this.setState({industry});
+        this.setState({yearsexp});
+        this.setState({area});
+      })
+    }  
 }
 
 getPostData(){
-  setTimeout(() => {
     console.log('Our post data is fetched');
     return _loadPosts()
     .then(resultingJSON => this.setState({posts : resultingJSON})
-  )}, 1000)
-}
+  )}
+
 
 componentDidMount () {
   this.getUserData();

@@ -4,9 +4,6 @@ import LeftSidebar from "../LeftSidebar/LeftSidebar";
 import RightSidebar from "../RightSidebar/RightSidebar";
 import Feed from "../Feed/Feed";
 
-
-
-
 // Component for Main content
 
 const Main = props => (

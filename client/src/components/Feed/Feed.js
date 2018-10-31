@@ -13,8 +13,8 @@ const Feed = props => (
       </form>  
 
       {props.posts.map((x) => 
-      <Posts _id={x._id} content={x.content} author={x.username} category={x.category} 
-      timeStamp={x.timeStamp} likes={x.likes} comments={x.comment} />)}
+      <Posts _id={x._id} content={x.content} username={x.username} category={x.category} 
+      timeStamp={x.timeStamp} likes={x.likes} comments={x.comments} />)}
 
   </div>
 

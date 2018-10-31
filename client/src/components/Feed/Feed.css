@@ -5,10 +5,13 @@
   
 .feed textarea {
     display: block;
-    width: 40em;
-    height: 5em;
+    width: 38em;
+    padding: 1em;
+    height: 3em;
     background: white;
     font-family: 'Krub', Arial, sans-serif;
+    border: .25em solid rgb(245, 219, 204);
+
   }
 .feed button {
     position: relative;

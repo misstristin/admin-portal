@@ -29,12 +29,19 @@
   float: left;
 }
 .leftSidebar, .rightSidebar {
-  width: 15em;
-  border: .1em solid rgb(212, 184, 167);
+  width: 14.75em;
+  border: .25em solid rgb(245, 219, 204);
   padding: 1em;
 }
 .feed {
 width: 40em;
+}
+.postContent {
+  width: 38em;
+  border: .25em solid rgb(245, 219, 204);
+  padding: 1em;
+  background-color:  rgb(255, 255, 255);
+  margin-bottom: 1em;
 }
 .profilePic {
   width: 15em;
