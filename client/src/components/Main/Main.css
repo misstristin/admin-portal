@@ -30,15 +30,15 @@
 }
 .leftSidebar, .rightSidebar {
   width: 14.75em;
-  border: .25em solid rgb(245, 219, 204);
+  border: .25em solid rgb(214, 214, 214);
   padding: 1em;
 }
 .feed {
 width: 40em;
 }
 .postContent {
-  width: 38em;
-  border: .25em solid rgb(245, 219, 204);
+  width: 37.5em;
+  border:.25em solid rgb(214, 214, 214);
   padding: 1em;
   background-color:  rgb(255, 255, 255);
   margin-bottom: 1em;

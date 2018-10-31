@@ -92,6 +92,9 @@ login = (event) => {
         let area = res.area;
         this.setState({username}, function(){
         localStorage.setItem('username', username);
+        this.setState({industry});
+        this.setState({yearsexp});
+        this.setState({area});
         });
       })
   } else {
@@ -102,9 +105,18 @@ login = (event) => {
 
 logout = (event) => {
   event.preventDefault();
+  let username="";
+  let industry="";
+  let yearsexp="";
+  let area="";
+  
   this.setState({isLoggedIn: false}, function(){
     localStorage.removeItem('token');
     localStorage.clear();
+  this.setState({username});
+  this.setState({industry});
+  this.setState({yearsexp});
+  this.setState({area});
   });
  
 }
@@ -112,10 +124,16 @@ logout = (event) => {
 addPost = (event) => {
   event.preventDefault();
 
+  let date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth();
+  let year = date.getFullYear();
+  let time = date.getTime();
+
   let content = event.target.children[0].value;
   let category = this.state.category;
   let username = this.state.username;
-  let timeStamp = new Date().getTime()
+  let timeStamp = day + month + year + time;
   let likes = 0;
   let comments = ['None Yet'];
 
@@ -126,6 +144,7 @@ addPost = (event) => {
 }
 
 getUserData(){
+  setTimeout(() => {
     console.log('Our user data is fetched');
     let username = localStorage.getItem('username');
     if(!username){
@@ -141,14 +160,16 @@ getUserData(){
         this.setState({yearsexp});
         this.setState({area});
       })
-    }  
-}
+    }}, 1000)}
+
 
 getPostData(){
+  setTimeout(() => {
     console.log('Our post data is fetched');
     return _loadPosts()
-    .then(resultingJSON => this.setState({posts : resultingJSON})
-  )}
+    .then(resultingJSON => this.setState({posts : resultingJSON})), 1000})
+  }
+
 
 
 componentDidMount () {
