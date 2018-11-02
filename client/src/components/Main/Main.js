@@ -9,7 +9,8 @@ import Feed from "../Feed/Feed";
 const Main = props => (
   <div className="mainDiv">
   
-  <LeftSidebar image={props.image} username={props.username} industry={props.industry} yearsexp={props.yearsexp} area={props.area} />
+  <LeftSidebar image={props.image} username={props.username} industry={props.industry} 
+              yearsexp={props.yearsexp} area={props.area} displayProfile={props.displayProfile} />
 
   <Feed username={props.username} industry={props.industry} 
         yearsexp={props.yearsexp} area={props.area} addPost={props.addPost}

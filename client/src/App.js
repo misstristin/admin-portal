@@ -7,12 +7,18 @@ import Login from "./components/Login-Signup/Login";
 import LoginNav from "./components/Nav/LoginNav";
 import SignUp from "./components/Login-Signup/SignUp";
 import SignupNav from "./components/Nav/SignupNav";
+import Profile from "./components/Profile/Profile"
 
 import { _signUp, _login } from './services/AuthService';
-import { _getUserInfo } from './services/UserServices';
+import { _getUserInfo, _newImage } from './services/UserServices';
 import { _addPost, _loadPosts } from './services/PostService';
 
 import profimg from './components/adminDefault.jpg';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCogs } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faCogs)
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +30,8 @@ class App extends Component {
         isSignedUp : true,
         posts : [],
         category : "Now",
-        image : profimg
+        image : profimg,
+        selectedFile: null
         
       }
     }else{
@@ -55,13 +62,39 @@ goToSignUp = (event) => {
 
 goToLater = (event) => {
   let category = "Later";
+  let displayProfile = false;
   this.setState ({category});
+  this.setState ({displayProfile});
+  return _loadPosts(category)
+  .then(resultingJSON => this.setState({posts : resultingJSON}))
 }
 
 goToNow = (event) => {
   let category = "Now";
-  this.setState ({category});
+  let displayProfile = false;
+  this.setState ({displayProfile});
+  return _loadPosts(category)
+    .then(resultingJSON => this.setState({posts : resultingJSON}))
+  }
+
+displayProfile = (event) => {
+  let displayProfile = true;
+  this.setState ({displayProfile})
 }
+
+newIMG = (event) => {
+  event.preventDefault();
+
+  let form = event.target;
+  let image = form.children[1].value;
+  let username = localStorage.getItem('username');
+  alert(username + image);
+  return _newImage (username, image).then(res => {
+    console.log(res);
+    this.setState({image});
+  });
+}
+
 
 signUp = (event) => {
   event.preventDefault();
@@ -118,7 +151,7 @@ login = (event) => {
 }
 
 logout = (event) => {
-  event.preventDefault();
+
   let username="";
   let industry="";
   let yearsexp="";
@@ -133,7 +166,6 @@ logout = (event) => {
   this.setState({yearsexp});
   this.setState({area});
   this.setState({image});
-
   });
  
 }
@@ -152,9 +184,10 @@ addPost = (event) => {
   let username = this.state.username;
   let timeStamp = day + month + year + time;
   let likes = 0;
-  let comments = ['None Yet'];
+  let commentCount = 0;
+  let comments = []
 
-  return _addPost(content, category, username, timeStamp, likes, comments).then(rj => {
+  return _addPost(content, category, username, timeStamp, likes, commentCount, comments).then(rj => {
       let posts = [...this.state.posts, rj];
       this.setState({posts});
       setTimeout(()=> {
@@ -187,7 +220,8 @@ getUserData(){
 
 getPostData(){
     console.log('Our post data is fetched');
-    return _loadPosts()
+    let category = this.state.category;
+    return _loadPosts(category)
     .then(resultingJSON => this.setState({posts : resultingJSON}))
   }
 
@@ -200,19 +234,33 @@ componentDidMount () {
 render() {
   let isLoggedIn = this.state.isLoggedIn;
   let isSignedUp = this.state.isSignedUp;
+  let displayProfile = this.state.displayProfile;
     return (
       <div className="App">
-      {isLoggedIn && <Nav logout={this.logout} goToLater={this.goToLater} goToNow={this.goToNow} />} 
+      {isLoggedIn && <Nav logout={this.logout} goToLater={this.goToLater} goToNow={this.goToNow} displayProfile={this.displayProfile} />} 
       {isSignedUp && !isLoggedIn && <LoginNav goToSignUp={this.goToSignUp} />}
       {!isSignedUp && !isLoggedIn && <SignupNav goToLogin={this.goToLogin} />}
-        
-      {isSignedUp && isLoggedIn && <Main username={this.state.username} 
+
+      {isSignedUp && isLoggedIn && displayProfile && <Profile username={this.state.username} 
+                                            industry={this.state.industry}
+                                            yearsexp={this.state.yearsexp} 
+                                            area={this.state.area}
+                                            image={this.state.image}
+                                            displayProfile={this.displayProfile}
+                                            newIMG={this.newIMG} />}
+
+
+
+      {isSignedUp && isLoggedIn && !displayProfile && <Main username={this.state.username} 
                                           industry={this.state.industry}
                                           yearsexp={this.state.yearsexp} 
                                           area={this.state.area}
                                           addPost={this.addPost}
                                           posts={this.state.posts}
-                                          image={this.state.image} />}
+                                          image={this.state.image}
+                                          displayProfile={this.displayProfile} />}
+      
+
 
       {isSignedUp && !isLoggedIn && <Login login={this.login} />}
       {!isSignedUp && !isLoggedIn && <SignUp signUp={this.signUp} />}

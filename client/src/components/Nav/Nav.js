@@ -8,10 +8,10 @@ const Nav = props => (
     <ul>
       <li><a id="brand" href="/">Admin Portal</a></li>
       <span className="navSpacer"></span>
-      <li className="rightNav"><a onClick={props.logout}>Logout</a></li>
-      <li className="rightNav"><a href="/profile">Profile</a></li>
-      <li className="rightNav"><a onClick={props.goToLater}>Later</a></li>
-      <li className="rightNav"><a onClick={props.goToNow}>Now</a></li>
+      <li className="rightNav"><a onClick={props.logout}  href="/">Logout</a></li>
+      <li className="rightNav"><a onClick={props.displayProfile}  href="#Profile">Profile</a></li>
+      <li className="rightNav"><a onClick={props.goToLater}  href="#Later">Later</a></li>
+      <li className="rightNav"><a onClick={props.goToNow}  href="#Now">Now</a></li>
     </ul>
   </nav>
 );

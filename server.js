@@ -80,9 +80,23 @@ app.get('/users/:username', function(req, res){
 	db.users.findOne({
         username: req.params.username
     }, function(error, result){
-	    res.json(result);
+        res.json(result);
 	});
 });
+
+// Add new profile pic
+//POST http://localhost:3001/addProfilePic/username
+app.post('/newImage/:username', function(req, res){
+
+	db.users.findAndModify({
+		query: {"username": req.params.username },
+		update: { $set: { "image": req.body.image },
+        new: true }, 
+        function (err, editedPic) {
+				res.json(editedPic);
+            }});
+        });
+
 
 // Sign up
 //POST http://localhost:3001/signup
@@ -156,6 +170,7 @@ app.post('/add', function(req, res){
         username: req.body.username,
         timeStamp: req.body.timeStamp,
         likes: req.body.likes,
+        commentCount: req.body.commentCount,
         comments: req.body.comments
     }, function(error, addedPost){
         //log any errors
@@ -171,9 +186,9 @@ app.post('/add', function(req, res){
 });
 
 // Posts API
-//GETS http://localhost:3001/posts
-app.get('/posts', function(req, res){
-	db.posts.find().sort({ timeStamp : -1}, function(error, result){
+//GETS http://localhost:3001/posts/:category
+app.get('/posts/:category', function(req, res){
+	db.posts.find({ category : req.params.category }).sort({ timeStamp : -1}, function(error, result){
 	    res.json(result);
 	})
 });

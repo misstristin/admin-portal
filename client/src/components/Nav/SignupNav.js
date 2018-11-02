@@ -8,7 +8,7 @@ const SignupNav = props => (
     <ul>
       <li><a id="brand" href="/">Admin Portal</a></li>
       <span className="navSpacer"></span>
-      <li className="rightNav"><a onClick={props.goToLogin}>Login</a></li>
+      <li className="rightNav"><a onClick={props.goToLogin} href="#Login">Login</a></li>
     </ul>
   </nav>
 );

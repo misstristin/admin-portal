@@ -1,6 +1,8 @@
 import React from "react";
 import "../Main/Main.css";
 import defimg from '../../components/adminDefault.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 // Component for the LeftSidebar
 
@@ -23,8 +25,8 @@ const LeftSidebar = props => (
 
     <span className="sidebarTitles">Area</span>
       <p id="geoarea">{props.area}</p>
-      
-    <span className="editLink"><a href="/profile">edit info</a></span>
+
+    <span className="editLink"><a onClick={props.displayProfile} href="#Profile">edit info <FontAwesomeIcon icon="cogs" /></a></span>
   </div>
 );
 
