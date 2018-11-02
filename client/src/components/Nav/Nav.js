@@ -10,8 +10,8 @@ const Nav = props => (
       <span className="navSpacer"></span>
       <li className="rightNav"><a onClick={props.logout}>Logout</a></li>
       <li className="rightNav"><a href="/profile">Profile</a></li>
-      <li className="rightNav"><a href="/later">Later</a></li>
-      <li className="rightNav"><a href="/now">Now</a></li>
+      <li className="rightNav"><a onClick={props.goToLater}>Later</a></li>
+      <li className="rightNav"><a onClick={props.goToNow}>Now</a></li>
     </ul>
   </nav>
 );

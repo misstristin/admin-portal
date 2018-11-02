@@ -104,7 +104,8 @@ app.post('/signup', function(req, res) {
                   email: req.body.email,
                   industry: req.body.industry,
                   yearsexp: req.body.yearsexp,
-                  area: req.body.area
+                  area: req.body.area,
+                  image: req.body.image
               }, function(error, user) {                  
                   // Log any errors
                   if (error) {
@@ -162,10 +163,9 @@ app.post('/add', function(req, res){
             res.send(error);
             alert(error);
         }else {
-            res.json({
-                addedPost: addedPost,
-                message: 'Successfully added post!'
-            });
+            res.json({ addedPost });
+            console.log(addedPost);
+            
         }
     })
 });
@@ -173,9 +173,9 @@ app.post('/add', function(req, res){
 // Posts API
 //GETS http://localhost:3001/posts
 app.get('/posts', function(req, res){
-	db.posts.find({}, function(error, result){
+	db.posts.find().sort({ timeStamp : -1}, function(error, result){
 	    res.json(result);
-	});
+	})
 });
 
 // renders index

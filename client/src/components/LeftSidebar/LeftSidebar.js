@@ -1,11 +1,12 @@
 import React from "react";
 import "../Main/Main.css";
+import defimg from '../../components/adminDefault.jpg'
 
 // Component for the LeftSidebar
 
 const LeftSidebar = props => (
     <div className="leftSidebar">
-    <img src="http://i.imgur.com/ozMQSFm.jpg" alt="placeholder" className="profilePic" />
+    <img image={props.image} src={defimg} alt="placeholder" className="profilePic" />
     <br />
 
     {/* Pulls from user data in Mongo */}
@@ -22,7 +23,8 @@ const LeftSidebar = props => (
 
     <span className="sidebarTitles">Area</span>
       <p id="geoarea">{props.area}</p>
-
+      
+    <span className="editLink"><a href="/profile">edit info</a></span>
   </div>
 );
 

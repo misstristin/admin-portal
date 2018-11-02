@@ -1,11 +1,11 @@
-export const _signUp = (username, password, email, industry, yearsexp, area) => {
+export const _signUp = (username, password, email, industry, yearsexp, area, image) => {
 	return fetch("http://localhost:3001/signup/", {
 	    method: 'POST',
 	    headers: {
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
 	    },
-	    body: JSON.stringify({username, password, email, industry, yearsexp, area})
+	    body: JSON.stringify({username, password, email, industry, yearsexp, area, image})
 	  }).then(res => res.json())
 }
 

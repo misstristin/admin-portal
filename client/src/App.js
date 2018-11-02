@@ -12,6 +12,7 @@ import { _signUp, _login } from './services/AuthService';
 import { _getUserInfo } from './services/UserServices';
 import { _addPost, _loadPosts } from './services/PostService';
 
+import profimg from './components/adminDefault.jpg';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends Component {
         isSignedUp : true,
         posts : [],
         category : "Now",
+        image : profimg
         
       }
     }else{
@@ -31,7 +33,7 @@ class App extends Component {
         isSignedUp : true,
         posts : [],
         category : "Now",
-        
+        image: profimg
       }
     }
     
@@ -51,6 +53,16 @@ goToSignUp = (event) => {
   this.setState ({isSignedUp});
 }
 
+goToLater = (event) => {
+  let category = "Later";
+  this.setState ({category});
+}
+
+goToNow = (event) => {
+  let category = "Now";
+  this.setState ({category});
+}
+
 signUp = (event) => {
   event.preventDefault();
 
@@ -62,14 +74,14 @@ signUp = (event) => {
   let industry = form.children[3].value;
   let yearsexp = form.children[4].value;
   let area = form.children[5].value;
+  let image = profimg;
 
-
-  console.log(username + password + email + yearsexp + area);
     
-  return _signUp(username, password, email, industry, yearsexp, area).then(res => {
+  return _signUp(username, password, email, industry, yearsexp, area, image).then(res => {
     console.log(res);
     let isSignedUp = true;
     this.setState({isSignedUp});
+    this.setState({image})
   });
 }
 
@@ -90,11 +102,13 @@ login = (event) => {
         let industry = res.industry;
         let yearsexp = res.yearsexp;
         let area = res.area;
+        let image = res.image;
         this.setState({username}, function(){
         localStorage.setItem('username', username);
         this.setState({industry});
         this.setState({yearsexp});
         this.setState({area});
+        this.setState({image});
         });
       })
   } else {
@@ -109,6 +123,7 @@ logout = (event) => {
   let industry="";
   let yearsexp="";
   let area="";
+  let image=profimg;
   
   this.setState({isLoggedIn: false}, function(){
     localStorage.removeItem('token');
@@ -117,6 +132,8 @@ logout = (event) => {
   this.setState({industry});
   this.setState({yearsexp});
   this.setState({area});
+  this.setState({image});
+
   });
  
 }
@@ -140,14 +157,17 @@ addPost = (event) => {
   return _addPost(content, category, username, timeStamp, likes, comments).then(rj => {
       let posts = [...this.state.posts, rj];
       this.setState({posts});
-    })
-}
+      setTimeout(()=> {
+        return this.getPostData()        
+      })
+      }, 500)}
+
+
 
 getUserData(){
-  setTimeout(() => {
     console.log('Our user data is fetched');
     let username = localStorage.getItem('username');
-    if(!username){
+    if(!username || username==="null"){
       console.log('No one is logged in yet.')
     }else {
       return _getUserInfo (username).then(res => {
@@ -155,21 +175,21 @@ getUserData(){
         let industry = res.industry;
         let yearsexp = res.yearsexp;
         let area = res.area;
+        let image = res.image;
         this.setState({username});
         this.setState({industry});
         this.setState({yearsexp});
         this.setState({area});
+        this.setState({image});
       })
-    }}, 1000)}
+    }};
 
 
 getPostData(){
-  setTimeout(() => {
     console.log('Our post data is fetched');
     return _loadPosts()
-    .then(resultingJSON => this.setState({posts : resultingJSON})), 1000})
+    .then(resultingJSON => this.setState({posts : resultingJSON}))
   }
-
 
 
 componentDidMount () {
@@ -182,7 +202,7 @@ render() {
   let isSignedUp = this.state.isSignedUp;
     return (
       <div className="App">
-      {isLoggedIn && <Nav logout={this.logout} />} 
+      {isLoggedIn && <Nav logout={this.logout} goToLater={this.goToLater} goToNow={this.goToNow} />} 
       {isSignedUp && !isLoggedIn && <LoginNav goToSignUp={this.goToSignUp} />}
       {!isSignedUp && !isLoggedIn && <SignupNav goToLogin={this.goToLogin} />}
         
@@ -191,7 +211,8 @@ render() {
                                           yearsexp={this.state.yearsexp} 
                                           area={this.state.area}
                                           addPost={this.addPost}
-                                          posts={this.state.posts} />}
+                                          posts={this.state.posts}
+                                          image={this.state.image} />}
 
       {isSignedUp && !isLoggedIn && <Login login={this.login} />}
       {!isSignedUp && !isLoggedIn && <SignUp signUp={this.signUp} />}

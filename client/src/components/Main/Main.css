@@ -44,13 +44,33 @@ width: 40em;
   margin-bottom: 1em;
 }
 .profilePic {
-  width: 15em;
+  width: 14.5em;
   border: .1em solid rgb(000,000,000);
+  margin: 0em auto;
   margin-bottom: 1em;
 }
 .sidebarTitles {
   color: rgb(0, 191, 255);
   font-weight: bolder;
+}
+
+.editLink a:link {
+  position: relative;
+  bottom: .05em;
+  left: 11em;
+  font-size:1em;
+  color: rgb(255, 255, 255);
+  font-weight: normal;
+  text-decoration: none;
+}
+.editLink a:hover {
+  position: relative;
+  bottom: .05em;
+  left: 11em;
+  font-size: 1em;
+  color:rgb(252, 175, 81);
+  font-weight: normal;
+  text-decoration: none;
 }
 .loginSignupDiv {
   width: 40em;
