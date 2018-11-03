@@ -6,7 +6,7 @@ import "./Nav.css";
 const LoginNav = props => (
   <nav role="navigation">
     <ul>
-      <li><a id="brand" href="/">Admin Portal</a></li>
+      <li><a id="brand" href="/">admin savvy</a></li>
       <span className="navSpacer"></span>
       <li className="rightNav"><a onClick={props.goToSignUp} href="#Signup">Sign Up</a></li>
     </ul>

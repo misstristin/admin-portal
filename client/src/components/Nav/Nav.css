@@ -3,12 +3,12 @@
 nav {
   background-color: deepskyblue;
   width: 100%;
-  height: 2.3em;
+  height: 2.7em;
   position: fixed;
   left: 0px;
   top: 0px;
-  box-shadow: 0em .1em .5em rgb(252, 175, 81);
-  font-size: .9em;
+  box-shadow: 0em .1em .5em  rgb(114, 105, 96);
+  font-size: .8em;
   }
   nav ul {
       list-style-type: none;
@@ -18,11 +18,13 @@ nav {
   }
   
   #brand {
-    font-size: 1.5em; 
+    font-family: 'lobster', cursive;
+    font-size: 1.8em; 
     margin: 0em 1em;
-    padding: .4em 0em;
+    padding: .3em 0em;
     float: left;
-    font-weight: bolder;
+    font-weight: normal;
+    text-shadow: .1em .1em .5em  rgb(70, 64, 58);
   }
   #brand:hover {
     background-color: transparent;
@@ -40,16 +42,16 @@ nav {
       display: block;
       color: rgb(255, 255, 255);
       text-align: center;
-      padding: .6em .5em;
+      padding: .8em .5em;
       text-decoration: none;
-    font-weight: normal;
+    font-weight: bold;
   }
   
   nav li a:hover {
-    background-color: rgb(252, 234, 227);
+    background-color:  rgb(255, 214, 164);
     color: black;
     text-decoration: none;
-    font-weight: normal;
-    border-radius: 2em;
+    font-weight: bold;
+    border-radius: 1.2em;
     cursor: pointer;
   }

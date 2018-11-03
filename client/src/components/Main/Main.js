@@ -14,7 +14,9 @@ const Main = props => (
 
   <Feed username={props.username} industry={props.industry} 
         yearsexp={props.yearsexp} area={props.area} addPost={props.addPost}
-        posts={props.posts} submitButton="Submit" />
+        posts={props.posts} submitButton="Submit" category={props.category} 
+        addLink={props.addLink} addImage={props.addImage} addLinkFunc={props.addLinkFunc} addImageFunc={props.addImageFunc}
+        addLike={props.addLike} />
 
   <RightSidebar />
 

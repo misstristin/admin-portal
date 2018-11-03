@@ -8,15 +8,9 @@ const RightSidebar = props => (
     <div className="rightSidebar">
     <span className="sidebarTitles">My Favorite Posts</span>
         <ul>
-           <li>These are placeholders</li> 
-           <li>Recent Favorites will go here</li> 
-           <li>Pulled from Mongo</li> 
-        </ul>
-    <span className="sidebarTitles">My Contributions</span>
-        <ul>
-           <li>These are placeholders</li> 
-           <li>Recent posts will go here</li> 
-           <li>Pulled from Mongo</li> 
+           <li>These are placeholders</li> <br />
+           <li>Recent Likes will go here</li> <br />
+           <li>Pulled from Mongo</li> <br />
         </ul>
     </div>
 

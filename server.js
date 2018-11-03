@@ -74,6 +74,14 @@ app.get('/users', function(req, res){
 	});
 });
 
+// just to see the mongo
+//GET http://localhost:3001/posts
+app.get('/posts', function(req, res){
+	db.posts.find({}, function(error, result){
+	    res.json(result);
+	});
+});
+
 // gets data on one user
 //GET http://localhost:3001/users/username
 app.get('/users/:username', function(req, res){
@@ -165,13 +173,16 @@ app.post('/login', function(req, res) {
 //POST http://localhost:3001/add
 app.post('/add', function(req, res){
     db.posts.insert({
+        title: req.body.title,
         content: req.body.content,
         category: req.body.category,
         username: req.body.username,
         timeStamp: req.body.timeStamp,
         likes: req.body.likes,
         commentCount: req.body.commentCount,
-        comments: req.body.comments
+        comments: req.body.comments,
+        addLink: req.body.addLink,
+        addImage: req.body.addImage
     }, function(error, addedPost){
         //log any errors
         if (error){
@@ -185,6 +196,55 @@ app.post('/add', function(req, res){
     })
 });
 
+// Adds a like to a post
+//POST http://localhost:3001/addLike/:id/:currentlikes
+app.post('/addLike/:id/:currentlikes', function(req, res){
+
+    db.posts.findAndModify({
+        query: {
+            "_id" : mongojs.ObjectId(req.params.id)
+        },
+        update: { $set: { "likes" : req.params.currentlikes + 1
+        },
+        new: true
+        }, function (err, addedLike) {
+            res.json(addedLike);
+        }});
+});
+
+// app.post('/pets/update/:id', function(req, res){
+// 	//curl -X POST http://localhost:3001/pets/5bb2de27c385cb3290b0e598
+
+// 	db.pets.findAndModify({
+// 		query: {
+// 			"_id": mongojs.ObjectId(req.params.id)
+// 		},
+// 		update: { $set: {
+// 			"name": req.body.name,
+// 			"type": req.body.type}
+// 		},
+// 		new: true
+// 		}, function (err, editedPet) {
+// 				res.json(editedPet);
+// 		});
+// });
+
+// Adds a comment to a post
+//POST http://localhost:3001/addComment/:id
+// app.post('/addComment/:id', function(req, res){
+//     db.posts.findAndModify({
+// 		query: {"_id" : ObjectId(req.params.id),
+// 		update: { $set: { 
+//             "comment" : 
+//             { "content" : req.body.content,
+//             "commentAuthor" : req.body.username,
+//             "timeStamp" : req.body.timeStamp},
+//         new: true }}, 
+//         function (err, editedPic) {
+//                 res.json(editedPic);
+//         }
+//     })
+// });
 // Posts API
 //GETS http://localhost:3001/posts/:category
 app.get('/posts/:category', function(req, res){

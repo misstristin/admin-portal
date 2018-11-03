@@ -11,14 +11,18 @@ import Profile from "./components/Profile/Profile"
 
 import { _signUp, _login } from './services/AuthService';
 import { _getUserInfo, _newImage } from './services/UserServices';
-import { _addPost, _loadPosts } from './services/PostService';
+import { _addPost, _loadPosts, _addLike } from './services/PostService';
 
 import profimg from './components/adminDefault.jpg';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCogs } from '@fortawesome/free-solid-svg-icons'
+import { faCogs, faLink, faImages, faHeart } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCogs)
+library.add(faCogs);
+library.add(faLink);
+library.add(faImages);
+library.add(faHeart);
+
 
 class App extends Component {
   constructor(props) {
@@ -29,18 +33,18 @@ class App extends Component {
         isLoggedIn : true,
         isSignedUp : true,
         posts : [],
-        category : "Now",
+        category : "Present",
         image : profimg,
-        selectedFile: null
-        
+        selectedFile: null,
+        addLink: false,
+        addImage: false       
       }
     }else{
       this.state = {
         isLoggedIn : false,
         isSignedUp : true,
         posts : [],
-        category : "Now",
-        image: profimg
+        category : "Present",
       }
     }
     
@@ -60,8 +64,8 @@ goToSignUp = (event) => {
   this.setState ({isSignedUp});
 }
 
-goToLater = (event) => {
-  let category = "Later";
+goToFuture = (event) => {
+  let category = "Future";
   let displayProfile = false;
   this.setState ({category});
   this.setState ({displayProfile});
@@ -69,9 +73,11 @@ goToLater = (event) => {
   .then(resultingJSON => this.setState({posts : resultingJSON}))
 }
 
-goToNow = (event) => {
-  let category = "Now";
+
+goToPresent = (event) => {
+  let category = "Present";
   let displayProfile = false;
+  this.setState ({category});
   this.setState ({displayProfile});
   return _loadPosts(category)
     .then(resultingJSON => this.setState({posts : resultingJSON}))
@@ -178,24 +184,86 @@ addPost = (event) => {
   let month = date.getMonth();
   let year = date.getFullYear();
   let time = date.getTime();
-
-  let content = event.target.children[0].value;
   let category = this.state.category;
   let username = this.state.username;
   let timeStamp = day + month + year + time;
   let likes = 0;
   let commentCount = 0;
-  let comments = []
+  let comments = [];
 
-  return _addPost(content, category, username, timeStamp, likes, commentCount, comments).then(rj => {
+  let addLink = this.state.addLink;
+  let addImage = this.state.addImage;
+  let title = event.target.children[0].value;
+  let content = event.target.children[3].value;
+
+  if(!addLink && !addImage){
+    title = event.target.children[0].value;
+    content = event.target.children[1].value;
+  }else if(!addLink && addImage){
+    title = event.target.children[0].value;
+    addImage = event.target.children[1].value;
+    content = event.target.children[2].value;
+  }else if(addLink && !addImage){
+    title = event.target.children[0].value;
+    addLink = event.target.children[1].value;
+    content = event.target.children[2].value;
+  }else {
+    title = event.target.children[0].value;
+    addLink = event.target.children[1].value;
+    addImage = event.target.children[2].value;
+    content = event.target.children[3].value;
+  }
+
+  return _addPost(title, content, category, username, timeStamp, likes, commentCount, comments, addLink, addImage).then(rj => {
       let posts = [...this.state.posts, rj];
       this.setState({posts});
       setTimeout(()=> {
         return this.getPostData()        
       })
-      }, 500)}
+    }, 500)
+  }
 
+  addLinkFunc = (event) => {
+    event.preventDefault();
+    let addLink = this.state.addLink;
 
+    if (addLink === true){
+      addLink = false;
+      this.setState({addLink});
+    } 
+    else {
+      addLink = true;
+      this.setState({addLink});
+    }
+  }
+
+  addImageFunc = (event) => {
+    event.preventDefault();
+    let addImage = this.state.addImage;
+
+    if (addImage === true){
+      addImage = false;
+      this.setState({addImage});
+    }else {
+      addImage = true;
+      this.setState({addImage});
+    } 
+  }
+
+  addLike = (event) => {
+    event.preventDefault();
+
+    let id = event.target.getAttribute('data-id');
+    let currentlikes = event.target.getAttribute('data-currentlikes');
+
+    console.log(event.target + id + currentlikes)
+
+    return _addLike(id, currentlikes).then(rj => {
+      let posts = this.state.posts;
+      this.setState ({posts});
+      return this.getPostData();
+    })
+}
 
 getUserData(){
     console.log('Our user data is fetched');
@@ -237,7 +305,7 @@ render() {
   let displayProfile = this.state.displayProfile;
     return (
       <div className="App">
-      {isLoggedIn && <Nav logout={this.logout} goToLater={this.goToLater} goToNow={this.goToNow} displayProfile={this.displayProfile} />} 
+      {isLoggedIn && <Nav logout={this.logout} goToFuture={this.goToFuture} goToPresent={this.goToPresent} displayProfile={this.displayProfile} />} 
       {isSignedUp && !isLoggedIn && <LoginNav goToSignUp={this.goToSignUp} />}
       {!isSignedUp && !isLoggedIn && <SignupNav goToLogin={this.goToLogin} />}
 
@@ -247,7 +315,8 @@ render() {
                                             area={this.state.area}
                                             image={this.state.image}
                                             displayProfile={this.displayProfile}
-                                            newIMG={this.newIMG} />}
+                                            newIMG={this.newIMG}
+                                            category={this.state.category} />}
 
 
 
@@ -258,7 +327,14 @@ render() {
                                           addPost={this.addPost}
                                           posts={this.state.posts}
                                           image={this.state.image}
-                                          displayProfile={this.displayProfile} />}
+                                          displayProfile={this.displayProfile}
+                                          category={this.state.category}
+                                          addLink={this.state.addLink}
+                                          addImage={this.state.addImage} 
+                                          addLinkFunc={this.addLinkFunc}
+                                          addImageFunc={this.addImageFunc}
+                                          addLike={this.addLike} 
+                                          editId={this.state.editId} />}
       
 
 
